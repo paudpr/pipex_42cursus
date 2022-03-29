@@ -17,8 +17,8 @@ void print_argv(char **argv)
 int main(int argc, char **argv)
 {
 	extern char	**environ;
-	int			fd[2];
-	pid_t		pid;
+	// int			fd[2];
+	// pid_t		pid;
 
 	if(!environ)
 		print_error();
@@ -28,15 +28,13 @@ int main(int argc, char **argv)
 
 	get_path(environ);
 
-	if (pipe(fd) < 0)
-		print_error();
-	pid = fork();
-	if (pid < 0)
-		print_error();
+	// if (pipe(fd) < 0)
+	// 	print_error();
+	// pid = fork();
+	// if (pid < 0)
+	// 	print_error();
 
 	system("leaks -q pipex");
 
 	return(0);
 }
-
-
