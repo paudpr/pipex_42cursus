@@ -16,7 +16,8 @@ SRC_PATH	= sources
 OBJ_PATH	= objects
 
 SRC =	main.c \
-		access.c \
+		utils.c \
+		path.c \
 		
 
 

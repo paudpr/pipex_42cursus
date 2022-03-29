@@ -1,0 +1,5 @@
+*.o
+pipex
+.DS_Store
+*.a
+no/
