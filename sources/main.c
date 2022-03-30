@@ -26,13 +26,17 @@ int main(int argc, char **argv)
 		print_error();
 	print_argv(argv);
 
-	get_path(environ);
+	get_path(environ, argc, argv);
 
+	// pipe(fd);
+	// printf("%d\n", fd[0]);
+	// printf("%d\n", fd[1]);
 	// if (pipe(fd) < 0)
 	// 	print_error();
 	// pid = fork();
-	// if (pid < 0)
-	// 	print_error();
+	// if(pid == 0)
+	// 	printf("this is child process\n");
+
 
 	system("leaks -q pipex");
 
