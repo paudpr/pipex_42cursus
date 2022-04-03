@@ -15,58 +15,43 @@ char *find_path(char **env)
 	return (NULL);
 }
 
-void ft_free_double(char **array)
+void check_valid(char **path_div, int argc, char **argv)
 {
 	int i;
-
-	i = 0;
-	while(array[i])
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
-}
-
-char **check_valid(char **path_div, int argc, char **argv)
-{
-	int i;
-	int j;
+	int mark;
 	char *aux;
 	char *path;
-	char **commands;
 
 	i = 2;
-	commands = malloc(sizeof(char *) * (argc - 3));
-	if (commands == NULL)
-		print_error();
-	j = 0;
+	mark = -1;
 	while(i > 1 && i < argc - 1)
 	{
 		aux = ft_strjoin(*path_div, "/");
 		path = ft_strjoin(aux, argv[i]);
 		free(aux);
-		if (access(path, F_OK) == 0)
-		{
-			commands[j] = ft_strdup(argv[i]);
-			// ft_memcpy(commands[j], argv[i], ft_strlen(argv[i]));
-			// ft_strlcpy(commands[j], argv[i], ft_strlen(argv[i]));
-			// ft_memmove(commands[j], argv[i], ft_strlen(argv[i]));
-			j++;
-		}
-		// else
-		// 	printf("argv[%d] NO es un comando\n\n", i);
+		//todos tienen que ser comandos o no cumple
+		//algo pasa aqui que no funciona bien
+		printf("valor access -> %d\n", access(path, F_OK));
+		printf("pathh -> %s\n", path);
+
+		//meh, el error es que no puede ser que sea error, tiene que ser otra cosa
+		if (access(path, F_OK) > mark)
+			mark = 0;
+		printf("hgfds\n");
 		free(path);
 		i++;
 	}
-	return(commands);
+	if (mark == 0)
+		printf("it is command\n");
+
+		//ahcer que devuelva mark y con eso ahcer el array de paths
+	return ;
 }
 
 void get_path(char **env, int argc, char **argv)
 {
 	char *path;
 	char **path_div;
-	char **commands;
 	int i;
 
 	path = find_path(env);
@@ -74,7 +59,8 @@ void get_path(char **env, int argc, char **argv)
 	i = 0;
 	while(path_div[i])
 	{
-		commands = check_valid(&path_div[i], argc, argv);
+		check_valid(&path_div[i], argc, argv);
+		printf("despues de \n\n");
 		i++;
 	}
 	ft_free_double(path_div);

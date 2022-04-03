@@ -27,7 +27,7 @@ int main(int argc, char **argv)
 	print_argv(argv);
 
 	get_path(environ, argc, argv);
-
+	
 	// pipe(fd);
 	// printf("%d\n", fd[0]);
 	// printf("%d\n", fd[1]);
