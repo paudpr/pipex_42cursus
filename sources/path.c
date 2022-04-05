@@ -45,6 +45,7 @@ char	**get_path(char **env, int argc, char **argv)
 	int		j;
 	char	*path;
 	char	**cmd_path;
+	char	**argv_split;
 
 	path = find_path(env);
 	cmd_path = malloc(sizeof(char *) * (argc - 3));
@@ -54,9 +55,11 @@ char	**get_path(char **env, int argc, char **argv)
 	j = 0;
 	while (argv[i] && i > 1 && i < argc - 1)
 	{
-		cmd_path[j] = check_valid(path, argv[i]);
+		argv_split = ft_split(argv[i], ' ');
+		cmd_path[j] = check_valid(path, argv_split[0]);
 		j++;
 		i++;
+		ft_free_double(argv_split);
 	}
 	cmd_path[j] = NULL;
 	//asegurar aqui que ninguno sea null excepto el ultimo para que no me cuelen que faltan comandos

@@ -18,8 +18,10 @@ int main(int argc, char **argv)
 {
 	extern char	**environ;
 	char		**cmd_path;
-	// int			fd[2];
-	// pid_t		pid;
+	int			pipe_fd[2];
+	pid_t		pid;
+	char		**cmd_split;
+	int			fd;
 
 	if(!environ)
 		print_error();
@@ -34,23 +36,39 @@ int main(int argc, char **argv)
 	while(cmd_path[++i])
 		printf("%s\n", cmd_path[i]);
 
-	int lalalalalla;
-	lalalalalla = check_access(environ, argv, cmd_path);
+
+	// int lalala;
+	// lalala = check_access(environ, argv, cmd_path);
+	// printf("lala -> %d\n", lalala);
 
 
+	pipe(pipe_fd);
+	printf("%d\n", pipe_fd[0]);
+	printf("%d\n", pipe_fd[1]);
+	if (pipe(pipe_fd) < 0)
+		print_error();
+	printf("PID PADRE = %d\n", getpid());
+	pid = fork();
+	printf("PID = %d\n", getpid());
+	cmd_split = ft_split(argv[2], ' ');
+	fd = open(argv[1], O_RDONLY);
+	if(fd < 0)
+		print_error();
+	dup2(fd, STDIN_FILENO);
+	printf("jhgfdsfghjhgfdsfghjgfdsghjkhgfdsfghjkjhgfdsfghjkljhgfdsdfghjkjhgfdsfghjkhgfdsfghjkhgfdsfghjgfd\n");
+	close(fd);
+	if(pid == 0)
+	{
+		printf("this is child process\n");
+		execve(cmd_path[i], cmd_split, environ);
+	}
+	else
+		printf("paso a proceso padre\n");
 
-	// pipe(fd);
-	// printf("%d\n", fd[0]);
-	// printf("%d\n", fd[1]);
-	// if (pipe(fd) < 0)
-	// 	print_error();
-	// pid = fork();
-	// if(pid == 0)
-	// 	printf("this is child process\n");
 
 
 	ft_free_double(cmd_path);
-	system("leaks -q pipex");
+	// system("leaks -q pipex");
 
 	return(0);
 }

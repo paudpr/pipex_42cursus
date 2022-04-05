@@ -4,7 +4,7 @@ LIBFT_NAME = libft.a
 
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra
+#CFLAGS = -Wall -Werror -Wextra
 CFLAGS += -I $(INC_PATH) -I $(LIBFT_PATH)
 
 LDFLAGS = -L $(LIBFT_PATH)
@@ -19,6 +19,7 @@ SRC =	main.c \
 		utils.c \
 		path.c \
 		access.c \
+		pipex.c \
 		
 
 
