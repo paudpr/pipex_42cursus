@@ -12,9 +12,11 @@ void ft_free_double(char **array)
 
 	i = 0;
 	while(array[i])
-	{
-		free(array[i]);
 		i++;
+	if (array[i - 1])
+	{
+		while(i >= 0)
+			free(array[i--]);
+		free(array);
 	}
-	free(array);
 }

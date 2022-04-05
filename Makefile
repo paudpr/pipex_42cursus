@@ -18,7 +18,7 @@ OBJ_PATH	= objects
 SRC =	main.c \
 		utils.c \
 		path.c \
-		files.c \
+		access.c \
 		
 
 

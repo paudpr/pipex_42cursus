@@ -25,6 +25,9 @@ void ft_free_double(char **array);
 
 /* Path */
 char *find_path(char **env);
-void get_path(char **env, int argc, char **argv);
+char **get_path(char **env, int argc, char **argv);
+
+/* Access */
+int check_access(char **environ, char **argv, char **command);
 
 #endif

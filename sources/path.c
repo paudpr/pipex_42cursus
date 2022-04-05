@@ -1,67 +1,64 @@
 #include <pipex.h>
 
-char *find_path(char **env)
+char	*find_path(char **env)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(env[i])
+	while (env[i])
 	{
 		if (ft_strnstr(env[i], "PATH=", 5))
 			return (env[i]);
 		i++;
 	}
-
 	return (NULL);
 }
 
-void check_valid(char **path_div, int argc, char **argv)
+char	*check_valid(char *path, char *argv)
 {
-	int i;
-	int mark;
-	char *aux;
-	char *path;
+	int		i;
+	char	**path_div;
+	char	*aux;
+	char	*str_cmd;
+	char	*cmd_path;
 
-	i = 2;
-	mark = -1;
-	while(i > 1 && i < argc - 1)
-	{
-		aux = ft_strjoin(*path_div, "/");
-		path = ft_strjoin(aux, argv[i]);
-		free(aux);
-		//todos tienen que ser comandos o no cumple
-		//algo pasa aqui que no funciona bien
-		printf("valor access -> %d\n", access(path, F_OK));
-		printf("pathh -> %s\n", path);
-
-		//meh, el error es que no puede ser que sea error, tiene que ser otra cosa
-		if (access(path, F_OK) > mark)
-			mark = 0;
-		printf("hgfds\n");
-		free(path);
-		i++;
-	}
-	if (mark == 0)
-		printf("it is command\n");
-
-		//ahcer que devuelva mark y con eso ahcer el array de paths
-	return ;
-}
-
-void get_path(char **env, int argc, char **argv)
-{
-	char *path;
-	char **path_div;
-	int i;
-
-	path = find_path(env);
 	path_div = ft_split(path, ':');
+	cmd_path = NULL;
 	i = 0;
-	while(path_div[i])
+	while (path_div[i])
 	{
-		check_valid(&path_div[i], argc, argv);
-		printf("despues de \n\n");
+		aux = ft_strjoin(path_div[i], "/");
+		str_cmd = ft_strjoin(aux, argv);
+		if (access(str_cmd, F_OK) == 0)
+			cmd_path = ft_strdup(aux);
+		free(aux);
+		free(str_cmd);
 		i++;
 	}
 	ft_free_double(path_div);
+	return (cmd_path);
+}
+
+char	**get_path(char **env, int argc, char **argv)
+{
+	int		i;
+	int		j;
+	char	*path;
+	char	**cmd_path;
+
+	path = find_path(env);
+	cmd_path = malloc(sizeof(char *) * (argc - 3));
+	if (cmd_path == NULL)
+		print_error();
+	i = 2;
+	j = 0;
+	while (argv[i] && i > 1 && i < argc - 1)
+	{
+		cmd_path[j] = check_valid(path, argv[i]);
+		j++;
+		i++;
+	}
+	cmd_path[j] = NULL;
+	//asegurar aqui que ninguno sea null excepto el ultimo para que no me cuelen que faltan comandos
+	return (cmd_path);
 }
