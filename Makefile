@@ -19,7 +19,7 @@ SRC =	main.c \
 		utils.c \
 		path.c \
 		access.c \
-		pipex.c \
+		
 		
 
 

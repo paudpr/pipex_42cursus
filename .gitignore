@@ -3,3 +3,4 @@ pipex
 .DS_Store
 *.a
 no/
+no.c

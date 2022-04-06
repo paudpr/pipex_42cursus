@@ -53,6 +53,7 @@ char	**get_path(char **env, int argc, char **argv)
 		print_error();
 	i = 2;
 	j = 0;
+	//acordarme de poner el -1 despues de argc en la condición cuando deje de hacer pruebas de un solo comando
 	while (argv[i] && i > 1 && i < argc - 1)
 	{
 		argv_split = ft_split(argv[i], ' ');

@@ -37,38 +37,42 @@ int main(int argc, char **argv)
 		printf("%s\n", cmd_path[i]);
 
 
-	// int lalala;
-	// lalala = check_access(environ, argv, cmd_path);
-	// printf("lala -> %d\n", lalala);
+	pipex(argv[1], argv[argc - 1], cmd_path, environ)
 
 
-	pipe(pipe_fd);
-	printf("%d\n", pipe_fd[0]);
-	printf("%d\n", pipe_fd[1]);
-	if (pipe(pipe_fd) < 0)
-		print_error();
-	printf("PID PADRE = %d\n", getpid());
-	pid = fork();
-	printf("PID = %d\n", getpid());
-	cmd_split = ft_split(argv[2], ' ');
-	fd = open(argv[1], O_RDONLY);
-	if(fd < 0)
-		print_error();
-	dup2(fd, STDIN_FILENO);
-	printf("jhgfdsfghjhgfdsfghjgfdsghjkhgfdsfghjkjhgfdsfghjkljhgfdsdfghjkjhgfdsfghjkhgfdsfghjkhgfdsfghjgfd\n");
-	close(fd);
-	if(pid == 0)
-	{
-		printf("this is child process\n");
-		execve(cmd_path[i], cmd_split, environ);
-	}
-	else
-		printf("paso a proceso padre\n");
+	// pipe(pipe_fd);
+	// printf("%d\n", pipe_fd[0]);
+	// printf("%d\n", pipe_fd[1]);
+	// if (pipe(pipe_fd) < 0)
+	// 	print_error();
+	// printf("PID PADRE = %d\n", getpid());
+	// pid = fork();
+	// printf("PID = %d\n %d\n", getpid(), pid);
+
+	//con esto ejecuto 1 comando ->
+
+	// cmd_split = ft_split(argv[2], ' ');
+	// fd = open(argv[1], O_RDONLY);
+	// if(fd < 0)
+	// 	print_error();
+	// dup2(fd, STDIN_FILENO);
+	// close(fd);
+	// printf("antes del execve\n");
+	// printf("%s\n%s\n%s\n", ft_strjoin(cmd_path[0], cmd_split[0]), cmd_split[0], environ[0]);
+	// fd = open(argv[3], O_RDWR | O_CREAT | O_TRUNC, 0644);
+	// dup2(fd, STDOUT_FILENO);
+	// close(fd);
+	// if (execve(ft_strjoin(cmd_path[0], cmd_split[0]), cmd_split, environ) == -1)
+	// 	print_error();
+	// printf("despues del execve\n");
+
+	// else
+	// 	printf("paso a proceso padre\n");
 
 
-
+	ft_free_double(cmd_split);
 	ft_free_double(cmd_path);
-	// system("leaks -q pipex");
+	system("leaks -q pipex");
 
 	return(0);
 }
