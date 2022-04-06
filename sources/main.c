@@ -62,11 +62,23 @@ int main(int argc, char **argv)
 	i = -1;
 	while(vals.cmds_path[++i])
 		printf("%s\n", vals.cmds_path[i]);
-
+	i = 2;
+	int j;
+	j = 0;
+	while(argv[i] && i > 1 && i < argc - 1)
+	{
+		printf("argv[i] -> %s\n", argv[i]);
+		printf("i -> %d\n", i);
+		vals.cmds_opts[j] = argv[i];
+		printf("jkhggfdsghjhgfd\n");
+		i++;
+	}
 	printf("Aqui\n");
+	printf("%s\n", vals.cmds_opts[0]);
 
 
-	pipex(argv[1], argv[argc - 1], &vals, environ)
+
+	// pipex(argv[1], argv[argc - 1], &vals);
 
 
 	// pipe(pipe_fd);
@@ -101,8 +113,8 @@ int main(int argc, char **argv)
 
 
 	// ft_free_double(vals.cmds_path);
-	// ft_free_double(cmd_path);
-	// system("leaks -q pipex");
+	// ft_free_double(vals.cmds_opts);
+	system("leaks -q pipex");
 
 	return(0);
 }

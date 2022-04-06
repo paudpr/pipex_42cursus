@@ -24,44 +24,44 @@
 // }
 
 
-void child_cmd(char *infile, t_vals *vals)
+void child_cmd(char *infile, t_vals *vals, char **argv)
 {
+	int		i;
 	int		fd;
-	char	**cmd_split;
+	char	*cmd;
 
-	close(pipe_fd[0]);
+	close(vals->pipe_fd[0]);
 	fd = open(infile, O_RDONLY);
 	if(fd < 0)
 		print_error();
 	i = 0;
-	cmd_split = ft_split(argv[i])
+	vals->cmds_opts = ft_split(argv[2], ' ');
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	dup2(pipe_fd[1], STDOUT_FILENO);
-	close(pipe_fd[1]);
-	if (execve(cmds[i], cmd_split, environ) < 0)
-	{
-		printf("execve -> %d\n", execve(cmds[i], cmd_split, environ));
-		i++;
-		print_error();
-	}
-	ft_free_double(cmd_split);
+	dup2(vals->pipe_fd[1], STDOUT_FILENO);
+	close(vals->pipe_fd[1]);
+	cmd = ft_strjoin(vals->cmds_path[0], argv[2]);
+	if (execve(cmd, ft_split(vals->cmds_opts, ' '), vals->env) < 0)
+			print_error();
+	ft_free_double(vals->cmds_opts);
 }
 
-void parent_cmd(char *outfile, char **cmds, char **env)
+void parent_cmd(char *outfile, t_vals *vals)
 {
 	int fd;
+	int i;
 	
 	fd = open(outfile, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 		print_error();
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
-	if(execve(cmds[i], cmd_split, environ))
+	i = 0;
+	if(execve(cmds[i], cmd_split, vals->env))
 		print_error();
 }
 
-void pipex(char *infile, char *outfile, t_vals *vals)
+void pipex(char *infile, char *outfile, t_vals *vals, char **argv)
 {
 	int		i;
 	int		fd;
@@ -74,11 +74,11 @@ void pipex(char *infile, char *outfile, t_vals *vals)
 	if(pid < 0)
 		print_error();
 	if (pid == 0)
-		child_cmd(infile, vals);
+		child_cmd(infile, vals, argv);
 	else
 	{
-		dup2(vals->pipe_fd[1], STDIN_FILENO);
 		close(vals->pipe_fd[0]);
+		dup2(vals->pipe_fd[1], STDIN_FILENO);
 		close(vals->pipe_fd[1]);
 		parent_cmd(outfile, cmds, env);
 
