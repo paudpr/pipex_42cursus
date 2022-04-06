@@ -19,13 +19,21 @@
 
 // printf(BLUE"%s"RESET"\n", *path_div);
 
+typedef struct s_vals
+{
+	char	**env;
+	char	**cmds_path;
+	char	**cmds_opts;
+	int		pipe_fd[2];
+}	t_vals;
+
 /* Utils */
 void print_error(void);
 void ft_free_double(char **array);
 
 /* Path */
 char *find_path(char **env);
-char **get_path(char **env, int argc, char **argv);
+char **get_path(t_vals *vals, int argc, char **argv);
 
 /* Access */
 int check_access(char **environ, char **argv, char **command);

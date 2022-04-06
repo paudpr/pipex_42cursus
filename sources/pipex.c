@@ -24,7 +24,7 @@
 // }
 
 
-void child_cmd(char *infile, int pipe_fd[2], char **cmds, char **env)
+void child_cmd(char *infile, t_vals *vals)
 {
 	int		fd;
 	char	**cmd_split;
@@ -34,7 +34,7 @@ void child_cmd(char *infile, int pipe_fd[2], char **cmds, char **env)
 	if(fd < 0)
 		print_error();
 	i = 0;
-	cmd_split = ft_split(argv[argv])
+	cmd_split = ft_split(argv[i])
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	dup2(pipe_fd[1], STDOUT_FILENO);
@@ -51,7 +51,6 @@ void child_cmd(char *infile, int pipe_fd[2], char **cmds, char **env)
 void parent_cmd(char *outfile, char **cmds, char **env)
 {
 	int fd;
-
 	
 	fd = open(outfile, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
@@ -59,28 +58,28 @@ void parent_cmd(char *outfile, char **cmds, char **env)
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
 	if(execve(cmds[i], cmd_split, environ))
+		print_error();
 }
 
-void pipex(char *infile, char *outfile, char **cmds, char **env)
+void pipex(char *infile, char *outfile, t_vals *vals)
 {
 	int		i;
 	int		fd;
-	int		pipe_fd[2];
 	pid_t	pid;
 	
 
-	if (pipe(pipe_fd) < 0)
+	if (pipe(vals->pipe_fd) < 0)
 		print_error();
 	pid = fork();
 	if(pid < 0)
 		print_error();
 	if (pid == 0)
-		child_cmd(infile, pipe_fd, cmds);
+		child_cmd(infile, vals);
 	else
 	{
-		dup2(pipe_fd[1], STDIN_FILENO);
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
+		dup2(vals->pipe_fd[1], STDIN_FILENO);
+		close(vals->pipe_fd[0]);
+		close(vals->pipe_fd[1]);
 		parent_cmd(outfile, cmds, env);
 
 	}

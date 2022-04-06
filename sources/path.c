@@ -39,7 +39,7 @@ char	*check_valid(char *path, char *argv)
 	return (cmd_path);
 }
 
-char	**get_path(char **env, int argc, char **argv)
+char	**get_path(t_vals *vals, int argc, char **argv)
 {
 	int		i;
 	int		j;
@@ -47,7 +47,7 @@ char	**get_path(char **env, int argc, char **argv)
 	char	**cmd_path;
 	char	**argv_split;
 
-	path = find_path(env);
+	path = find_path(vals->env);
 	cmd_path = malloc(sizeof(char *) * (argc - 3));
 	if (cmd_path == NULL)
 		print_error();

@@ -14,14 +14,38 @@ void print_argv(char **argv)
 	}
 }
 
+void	init_vals(t_vals *vals, char **environ)
+{
+	int i;
+
+	i = 0;
+	while(environ[i])
+		i++;
+	vals->env = malloc(sizeof(char *) * i);
+	if(vals->env == NULL)
+		return ;
+	i = 0;
+	while(environ[i])
+	{
+		vals->env[i] = ft_strdup(environ[i]);
+		i++;
+	}
+	vals->env[i] = NULL;
+	// vals->cmds_path = NULL;
+	// vals->cmds_opts = NULL;
+	ft_bzero(vals->pipe_fd, 2);
+}
+
+
 int main(int argc, char **argv)
 {
 	extern char	**environ;
 	char		**cmd_path;
-	int			pipe_fd[2];
 	pid_t		pid;
 	char		**cmd_split;
 	int			fd;
+	t_vals		vals;
+
 
 	if(!environ)
 		print_error();
@@ -29,15 +53,20 @@ int main(int argc, char **argv)
 		print_error();
 	// print_argv(argv);
 
+	init_vals(&vals, environ);
+	printf("%s\n", vals.env[0]);
+	printf("%d, %d\n", vals.pipe_fd[0], vals.pipe_fd[1]);
 
-	cmd_path = get_path(environ, argc, argv);
+	vals.cmds_path = get_path(&vals, argc, argv);
 	int i;
 	i = -1;
-	while(cmd_path[++i])
-		printf("%s\n", cmd_path[i]);
+	while(vals.cmds_path[++i])
+		printf("%s\n", vals.cmds_path[i]);
+
+	printf("Aqui\n");
 
 
-	pipex(argv[1], argv[argc - 1], cmd_path, environ)
+	pipex(argv[1], argv[argc - 1], &vals, environ)
 
 
 	// pipe(pipe_fd);
@@ -66,13 +95,14 @@ int main(int argc, char **argv)
 	// 	print_error();
 	// printf("despues del execve\n");
 
+
 	// else
 	// 	printf("paso a proceso padre\n");
 
 
-	ft_free_double(cmd_split);
-	ft_free_double(cmd_path);
-	system("leaks -q pipex");
+	// ft_free_double(vals.cmds_path);
+	// ft_free_double(cmd_path);
+	// system("leaks -q pipex");
 
 	return(0);
 }
