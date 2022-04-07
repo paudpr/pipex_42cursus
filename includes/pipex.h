@@ -39,6 +39,6 @@ char **get_path(t_vals *vals, int argc, char **argv);
 int check_access(char **environ, char **argv, char **command);
 
 /* Pipex */
-void pipex(char *infile, char *outfile, t_vals *vals);
+void pipex(char *infile, char *outfile, t_vals *vals, char **argv);
 
 #endif
