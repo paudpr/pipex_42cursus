@@ -30,8 +30,8 @@ typedef struct s_vals
 /* Utils */
 void print_error(void);
 void ft_free_double(char **array);
-
 char **get_argv(char **argv, int argc);
+void	init_vals(t_vals *vals, char **environ, int argc, char **argv);
 
 /* Path */
 char *find_path(char **env);
@@ -41,6 +41,6 @@ char **get_path(t_vals *vals, int argc, char **argv);
 int check_access(char **environ, char **argv, char **command);
 
 /* Pipex */
-void pipex(char *infile, char *outfile, t_vals *vals, char **argv);
+void pipex(char *infile, char *outfile, t_vals *vals);
 
 #endif

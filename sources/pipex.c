@@ -1,6 +1,6 @@
 #include <pipex.h>
 
-void child_cmd(char *infile, t_vals *vals, char **argv)
+void child_cmd(char *infile, t_vals *vals)
 {
 	int		fd;
 	char	*cmd;
@@ -15,14 +15,14 @@ void child_cmd(char *infile, t_vals *vals, char **argv)
 	dup2(vals->pipe_fd[1], STDOUT_FILENO);
 	close(vals->pipe_fd[1]);
 	//cambiar iteradores de cmds_path y argv. también en el split
-	cmd = ft_strjoin(vals->cmds_path[0], argv[2]);
-	cmd_split = ft_split(argv[2], ' ');
+	cmd = ft_strjoin(vals->cmds_path[0], vals->cmds_argv[0]);
+	cmd_split = ft_split(vals->cmds_argv[0], ' ');
 	if (execve(cmd, cmd_split, vals->env) < 0)
 			print_error();
 	ft_free_double(cmd_split);
 }
 
-void parent_cmd(char *outfile, t_vals *vals, char **argv)
+void parent_cmd(char *outfile, t_vals *vals)
 {
 	int fd;
 	int i;
@@ -36,17 +36,15 @@ void parent_cmd(char *outfile, t_vals *vals, char **argv)
 	close(fd);
 	i = 0;
 	//cambiar iteradores de cmds_path y argv. también en el split
-	cmd = ft_strjoin(vals->cmds_path[1], argv[3]);
-	cmd_split = ft_split(argv[3], ' ');
+	cmd = ft_strjoin(vals->cmds_path[1], vals->cmds_argv[1]);
+	cmd_split = ft_split(vals->cmds_argv[1], ' ');
 	if(execve(cmd, cmd_split, vals->env))
 		print_error();
 	ft_free_double(cmd_split);
 }
 
-void pipex(char *infile, char *outfile, t_vals *vals, char **argv)
+void pipex(char *infile, char *outfile, t_vals *vals)
 {
-	// int		i;
-	// int		fd;
 	pid_t	pid;
 	
 
@@ -56,17 +54,16 @@ void pipex(char *infile, char *outfile, t_vals *vals, char **argv)
 	if(pid < 0)
 		print_error();
 	if (pid == 0)
-		child_cmd(infile, vals, argv);
+		child_cmd(infile, vals);
 
-	(void)outfile;
-	// else
-	// {
-	// 	close(vals->pipe_fd[1]);
-	// 	dup2(vals->pipe_fd[0], STDIN_FILENO);
-	// 	close(vals->pipe_fd[0]);
-	// 	parent_cmd(outfile, vals, argv);
+	else
+	{
+		close(vals->pipe_fd[1]);
+		dup2(vals->pipe_fd[0], STDIN_FILENO);
+		close(vals->pipe_fd[0]);
+		parent_cmd(outfile, vals);
 
-	// }
+	}
 	
 	//comprobar si todos los procesos están terminados???
 
