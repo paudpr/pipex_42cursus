@@ -23,7 +23,7 @@ typedef struct s_vals
 {
 	char	**env;
 	char	**cmds_path;
-	char	**cmds_opts;
+	char	**cmds_argv;
 	int		pipe_fd[2];
 }	t_vals;
 

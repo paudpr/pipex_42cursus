@@ -36,6 +36,8 @@ char	*check_valid(char *path, char *argv)
 		i++;
 	}
 	ft_free_double(path_div);
+	if(cmd_path == NULL)
+		print_error();
 	return (cmd_path);
 }
 
