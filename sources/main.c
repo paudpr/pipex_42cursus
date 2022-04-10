@@ -1,6 +1,6 @@
 #include <pipex.h>
 
-void	init_vals(t_vals *vals, char **environ)
+void	init_vals(t_vals *vals, char **environ, int argc, char **argv)
 {
 	int i;
 
@@ -17,6 +17,8 @@ void	init_vals(t_vals *vals, char **environ)
 		i++;
 	}
 	ft_bzero(vals->pipe_fd, 2);
+	vals->cmds_path = get_path(vals, argc, argv);
+	vals->cmds_argv = get_argv(argv, argc);
 }
 
 char **get_argv(char **argv, int argc)
@@ -51,17 +53,14 @@ int main(int argc, char **argv)
 	// if (argc != 5)
 	// 	print_error();
 
-	init_vals(&vals, environ);
-	vals.cmds_path = get_path(&vals, argc, argv);
-	vals.cmds_argv = get_argv(argv, argc);
-	
+	init_vals(&vals, environ, argc, argv);
 
 	int i;
 	i = 0;
 	while(vals.cmds_path[i])
 	{
-	printf("estoy aqui \n");
 		printf("%s\n", vals.cmds_path[i]);
+		printf("%s\n", vals.cmds_argv[i]);
 		i++;
 	}
 

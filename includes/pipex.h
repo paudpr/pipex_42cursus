@@ -31,6 +31,8 @@ typedef struct s_vals
 void print_error(void);
 void ft_free_double(char **array);
 
+char **get_argv(char **argv, int argc);
+
 /* Path */
 char *find_path(char **env);
 char **get_path(t_vals *vals, int argc, char **argv);
