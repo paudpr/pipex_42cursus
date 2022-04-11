@@ -28,7 +28,7 @@ void	init_vals(t_vals *vals, char **environ, int argc, char **argv)
 	i = 0;
 	while(environ[i])
 		i++;
-	vals->env = malloc(sizeof(char *) * i);
+	vals->env = malloc(sizeof(char *) * (i + 1));
 	if(vals->env == NULL)
 		return ;
 	i = 0;
@@ -37,6 +37,7 @@ void	init_vals(t_vals *vals, char **environ, int argc, char **argv)
 		vals->env[i] = ft_strdup(environ[i]);
 		i++;
 	}
+	vals->env[i] = NULL;
 	ft_bzero(vals->pipe_fd, 2);
 	vals->cmds_path = get_path(vals, argc, argv);
 	vals->cmds_argv = get_argv(argv, argc);
@@ -48,7 +49,7 @@ char **get_argv(char **argv, int argc)
 	int i;
 	int j;
 
-	cmd_argv = malloc(sizeof(char *) * argc - 3);
+	cmd_argv = malloc(sizeof(char *) * argc - 3 + 1);
 	if (cmd_argv == NULL)
 		print_error();
 	i = 2;

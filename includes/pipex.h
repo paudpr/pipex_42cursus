@@ -25,6 +25,7 @@ typedef struct s_vals
 	char	**cmds_path;
 	char	**cmds_argv;
 	int		pipe_fd[2];
+	int		num;
 }	t_vals;
 
 /* Utils */

@@ -6,7 +6,7 @@
 #    By: pdel-pin <pdel-pin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/15 17:17:08 by pdel-pin          #+#    #+#              #
-#    Updated: 2021/11/30 20:10:33 by pdel-pin         ###   ########.fr        #
+#    Updated: 2022/04/11 11:07:50 by pdel-pin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,8 @@ SRCS	=	ft_isalpha.c \
 		ft_putchar_fd.c \
 		ft_putstr_fd.c \
 		ft_putendl_fd.c \
-		ft_putnbr_fd.c
+		ft_putnbr_fd.c \
+		get_next_line.c
 
 BONUS	=	ft_lstnew_bonus.c \
 			ft_lstadd_front_bonus.c \

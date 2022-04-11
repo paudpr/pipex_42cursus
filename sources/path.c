@@ -50,7 +50,7 @@ char	**get_path(t_vals *vals, int argc, char **argv)
 	char	**argv_split;
 
 	path = find_path(vals->env);
-	cmd_path = malloc(sizeof(char *) * (argc - 3));
+	cmd_path = malloc(sizeof(char *) * (argc - 3 + 1));
 	if (cmd_path == NULL)
 		print_error();
 	i = 2;

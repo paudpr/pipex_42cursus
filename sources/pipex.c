@@ -15,8 +15,8 @@ void child_cmd(char *infile, t_vals *vals)
 	dup2(vals->pipe_fd[1], STDOUT_FILENO);
 	close(vals->pipe_fd[1]);
 	//cambiar iteradores de cmds_path y argv. también en el split
-	cmd = ft_strjoin(vals->cmds_path[0], vals->cmds_argv[0]);
-	cmd_split = ft_split(vals->cmds_argv[0], ' ');
+	cmd_split = ft_split(vals->cmds_argv[vals->num], ' ');
+	cmd = ft_strjoin(vals->cmds_path[vals->num], cmd_split[0]);
 	if (execve(cmd, cmd_split, vals->env) < 0)
 			print_error();
 	ft_free_double(cmd_split);
@@ -25,19 +25,18 @@ void child_cmd(char *infile, t_vals *vals)
 void parent_cmd(char *outfile, t_vals *vals)
 {
 	int fd;
-	int i;
 	char *cmd;
 	char **cmd_split;
 	
+
 	fd = open(outfile, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 		print_error();
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
-	i = 0;
 	//cambiar iteradores de cmds_path y argv. también en el split
-	cmd = ft_strjoin(vals->cmds_path[1], vals->cmds_argv[1]);
-	cmd_split = ft_split(vals->cmds_argv[1], ' ');
+	cmd_split = ft_split(vals->cmds_argv[vals->num], ' ');
+	cmd = ft_strjoin(vals->cmds_path[vals->num], cmd_split[0]);
 	if(execve(cmd, cmd_split, vals->env))
 		print_error();
 	ft_free_double(cmd_split);
@@ -55,16 +54,12 @@ void pipex(char *infile, char *outfile, t_vals *vals)
 		print_error();
 	if (pid == 0)
 		child_cmd(infile, vals);
+	vals->num += 1;
+	close(vals->pipe_fd[1]);
+	dup2(vals->pipe_fd[0], STDIN_FILENO);
+	close(vals->pipe_fd[0]);
+	parent_cmd(outfile, vals);
 
-	else
-	{
-		close(vals->pipe_fd[1]);
-		dup2(vals->pipe_fd[0], STDIN_FILENO);
-		close(vals->pipe_fd[0]);
-		parent_cmd(outfile, vals);
-
-	}
-	
 	//comprobar si todos los procesos están terminados???
 
 
