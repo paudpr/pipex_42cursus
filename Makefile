@@ -18,11 +18,13 @@ OBJ_PATH	= objects
 SRC =	main.c \
 		utils.c \
 		path.c \
-		access.c \
 		pipex.c \
 		
-		
-
+SRC_BONUS = main_bonus.c \
+			pipex_bonus.c \
+			utils_bonus.c \
+			path_bonus.c \
+			#heredoc_bonus.c \
 
 
 all: $(NAME)
@@ -32,11 +34,14 @@ all: $(NAME)
 ## -p para crear directorios uno dentro del otro
 
 OBJS_NAME = $(SRC:%.c=%.o)
+OBJS_NAME_BONUS = $(SRC_BONUS:%.c=%.o)
 
 ##addprefix "coge" el segundo argumento y el path del primer argumento. funciona como un while añadiendo paths a cada source
 SRCS_NAME = $(addprefix $(SRC_PATH)/, $(SRC))
+SRCS_NAME_BONUS = $(addprefix $(SRC_PATH)/, $(SRC_BONUS))
 
 OBJS =  $(addprefix $(OBJ_PATH)/, $(OBJS_NAME))
+OBJS_BONUS = $(addprefix $(OBJ_PATH)/, $(OBJS_NAME_BONUS))
 
 $(OBJ_PATH):
 			mkdir -p $(OBJ_PATH) 2> /dev/null
@@ -60,10 +65,12 @@ $(LIBFT_NAME):
 
 ##RULES
 
-$(MAKE): make
-
 debug: CFLAGS += -fsanitize=address -g3
 debug: $(NAME)
+
+bonus: $(OBJS_BONUS)
+		make -C $(LIBFT_PATH)
+		$(CC) $(CFLAGS) $(LDFLAGS) $(LDLIBS) $^ -o $(NAME) 
 
 norminette:
 	norminette $(SRCS) 
