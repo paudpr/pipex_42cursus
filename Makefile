@@ -65,7 +65,7 @@ $(LIBFT_NAME):
 
 ##RULES
 
-debug: CFLAGS += -fsanitize=address -g3
+debug: CFLAGS +=  -g3 -fsanitize=address
 debug: $(NAME)
 
 bonus: $(OBJS_BONUS)

@@ -3,7 +3,7 @@
 void	print_error(void)
 {
 	write(1, "ERROR\n", 6);
-	exit(0);
+	exit(EXIT_FAILURE);
 }
 
 void	ft_free_double(char **array)

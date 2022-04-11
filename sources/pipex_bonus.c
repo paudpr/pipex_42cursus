@@ -1,69 +1,59 @@
 #include <pipex.h>
 
-
-char	*find_path(char **env)
+void	child_cmd(char *infile, t_vals *vals)
 {
-	int	i;
+	int		fd;
+	char	*cmd;
+	char	**cmd_split;
 
-	i = 0;
-	while (env[i])
-	{
-		if (ft_strnstr(env[i], "PATH=", 5))
-			return (env[i]);
-		i++;
-	}
-	return (NULL);
+	close(vals->pipe_fd[0]);
+	fd = open(infile, O_RDONLY);
+	if (fd < 0)
+		print_error();
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	dup2(vals->pipe_fd[1], STDOUT_FILENO);
+	close(vals->pipe_fd[1]);
+	cmd_split = ft_split(vals->cmds_argv[vals->num], ' ');
+	cmd = ft_strjoin(vals->cmds_path[vals->num], cmd_split[0]);
+	if (execve(cmd, cmd_split, vals->env) < 0)
+		print_error();
+	ft_free_double(cmd_split);
 }
 
-// char	*check_valid(char *path, char *argv)
-// {
-// 	int		i;
-// 	char	**path_div;
-// 	char	*aux;
-// 	char	*str_cmd;
-// 	char	*cmd_path;
+void	parent_cmd(char *outfile, t_vals *vals)
+{
+	int		fd;
+	char	*cmd;
+	char	**cmd_split;
 
-// 	path_div = ft_split(path, ':');
-// 	cmd_path = NULL;
-// 	i = 0;
-// 	while (path_div[i])
-// 	{
-// 		aux = ft_strjoin(path_div[i], "/");
-// 		str_cmd = ft_strjoin(aux, argv);
-// 		if (access(str_cmd, F_OK) == 0)
-// 			cmd_path = ft_strdup(aux);
-// 		free(aux);
-// 		free(str_cmd);
-// 		i++;
-// 	}
-// 	ft_free_double(path_div);
-// 	if (cmd_path == NULL)
-// 		print_error();
-// 	return (cmd_path);
-// }
+	fd = open(outfile, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
+		print_error();
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
+	cmd_split = ft_split(vals->cmds_argv[vals->num], ' ');
+	cmd = ft_strjoin(vals->cmds_path[vals->num], cmd_split[0]);
+	if (execve(cmd, cmd_split, vals->env))
+		print_error();
+	ft_free_double(cmd_split);
+}
 
-// char	**get_path(t_vals *vals, int argc, char **argv)
-// {
-// 	int		i;
-// 	int		j;
-// 	char	*path;
-// 	char	**cmd_path;
-// 	char	**argv_split;
+void	pipex(char *infile, char *outfile, t_vals *vals)
+{
+	pid_t	pid;
 
-// 	path = find_path(vals->env);
-// 	cmd_path = malloc(sizeof(char *) * (argc - 3 + 1));
-// 	if (cmd_path == NULL)
-// 		print_error();
-// 	i = 2;
-// 	j = 0;
-// 	while (argv[i] && i > 1 && i < argc - 1)
-// 	{
-// 		argv_split = ft_split(argv[i], ' ');
-// 		cmd_path[j] = check_valid(path, argv_split[0]);
-// 		j++;
-// 		i++;
-// 		ft_free_double(argv_split);
-// 	}
-// 	cmd_path[j] = NULL;
-// 	return (cmd_path);
-// }
+	if (pipe(vals->pipe_fd) < 0)
+		print_error();
+	// while()
+	pid = fork();
+	if (pid < 0)
+		print_error();
+	if (pid == 0)
+		child_cmd(infile, vals);
+	vals->num += 1;
+	close(vals->pipe_fd[1]);
+	dup2(vals->pipe_fd[0], STDIN_FILENO);
+	close(vals->pipe_fd[0]);
+	parent_cmd(outfile, vals);
+}
