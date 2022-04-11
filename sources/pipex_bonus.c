@@ -18,7 +18,6 @@ void	child_cmd(char *infile, t_vals *vals)
 	cmd = ft_strjoin(vals->cmds_path[vals->num], cmd_split[0]);
 	if (execve(cmd, cmd_split, vals->env) < 0)
 		print_error();
-	ft_free_double(cmd_split);
 }
 
 void	parent_cmd(char *outfile, t_vals *vals)
@@ -36,22 +35,29 @@ void	parent_cmd(char *outfile, t_vals *vals)
 	cmd = ft_strjoin(vals->cmds_path[vals->num], cmd_split[0]);
 	if (execve(cmd, cmd_split, vals->env))
 		print_error();
-	ft_free_double(cmd_split);
 }
 
 void	pipex(char *infile, char *outfile, t_vals *vals)
 {
+	int i;
 	pid_t	pid;
 
+	i = 0;
+	while(vals->cmds_argv[i])
+		i++;
 	if (pipe(vals->pipe_fd) < 0)
 		print_error();
-	// while()
-	pid = fork();
-	if (pid < 0)
-		print_error();
-	if (pid == 0)
-		child_cmd(infile, vals);
-	vals->num += 1;
+
+	printf("TODOS TUS PROBLEMAS ESTÁN AQUI\n");
+	while(vals->cmds_argv[vals->num] && vals->num < i)
+	{
+		pid = fork();
+		if (pid < 0)
+			print_error();
+		if (pid == 0)
+			child_cmd(infile, vals);
+		vals->num += 1;
+	}
 	close(vals->pipe_fd[1]);
 	dup2(vals->pipe_fd[0], STDIN_FILENO);
 	close(vals->pipe_fd[0]);

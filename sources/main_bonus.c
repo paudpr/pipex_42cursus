@@ -27,5 +27,5 @@ int	main(int argc, char **argv)
 	// execve("/bin/ls", ft_split("ls", ' '), environ);
 	// printf("lslslsls\n");
 	// 	execve("/usr/bin/wc", ft_split("wc", ' '), environ);
-	return (0);
+	// return (0);
 }
