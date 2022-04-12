@@ -1,20 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tolower.c                                       :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pdel-pin <pdel-pin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/15 17:48:30 by pdel-pin          #+#    #+#             */
-/*   Updated: 2021/11/12 11:11:14 by pdel-pin         ###   ########.fr       */
+/*   Created: 2021/10/15 17:41:13 by pdel-pin          #+#    #+#             */
+/*   Updated: 2022/04/12 14:58:42 by pdel-pin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "functions.h"
 
-int	ft_tolower(int c)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	if (c > 64 && c < 91)
-		c += 32;
-	return (c);
+	char	*s1;
+	size_t	i;
+
+	if (!s)
+		return (0);
+	if (len > ft_strlen(s))
+		len = ft_strlen(s);
+	s1 = malloc(sizeof(char) * (len + 1));
+	if (s1 == NULL)
+		return (s1);
+	if (start > ft_strlen(s))
+	{
+		s1[0] = '\0';
+		return (s1);
+	}
+	i = 0;
+	while (i < len)
+	{
+		s1[i] = s[start + i];
+		i++;
+	}
+	s1[i] = '\0';
+	return (s1);
 }

@@ -6,11 +6,11 @@
 /*   By: pdel-pin <pdel-pin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 16:38:01 by pdel-pin          #+#    #+#             */
-/*   Updated: 2021/12/03 13:20:35 by pdel-pin         ###   ########.fr       */
+/*   Updated: 2022/04/12 14:54:48 by pdel-pin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "functions.h"
 
 char	*ft_strdup(const char *s1)
 {

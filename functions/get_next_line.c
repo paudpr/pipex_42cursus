@@ -6,11 +6,11 @@
 /*   By: pdel-pin <pdel-pin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 12:27:01 by pdel-pin          #+#    #+#             */
-/*   Updated: 2022/04/11 11:07:13 by pdel-pin         ###   ########.fr       */
+/*   Updated: 2022/04/12 14:55:38 by pdel-pin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "functions.h"
 
 //keeps reading until function finds '\n' character
 //adds previously read chars to pointer saved
@@ -102,4 +102,23 @@ char	*get_next_line(int fd)
 		return (NULL);
 	line = ft_get_line(&(str[fd]));
 	return (line);
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	void	*ptr;
+	char	*p;
+	size_t	i;
+
+	ptr = malloc(count * size);
+	if (ptr == NULL)
+		return (ptr);
+	p = ptr;
+	i = 0;
+	while (i < (count * size))
+	{
+		p[i] = 0;
+		i++;
+	}
+	return (ptr);
 }

@@ -1,16 +1,13 @@
 NAME = pipex
 
-LIBFT_NAME = libft.a
+FUN_NAME = fun.a
 
 CC = gcc
 
 CFLAGS = -Wall -Werror -Wextra
-CFLAGS += -I $(INC_PATH) -I $(LIBFT_PATH)
+CFLAGS += -I $(INC_PATH)
 
-LDFLAGS = -L $(LIBFT_PATH)
-LDLIBS = -lft
-
-LIBFT_PATH	= libft
+FUN_PATH	= functions
 INC_PATH	= includes
 SRC_PATH	= sources
 OBJ_PATH	= objects
@@ -24,7 +21,7 @@ SRC_BONUS = main_bonus.c \
 			pipex_bonus.c \
 			utils_bonus.c \
 			path_bonus.c \
-			#heredoc_bonus.c \
+			#heredoc.c
 
 
 all: $(NAME)
@@ -56,12 +53,12 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c | $(OBJ_PATH)
 ##el | está para evitar que haga relink
 ##otra solución sería copiar la orden de $(LIBFT_NAME) para ejecutar antes de la compilación (dentro de $(NAME))
 $(NAME): $(OBJS)
-		make -C $(LIBFT_PATH)
-		$(CC) $^ -o $@ $(CFLAGS) $(LDFLAGS) $(LDLIBS)
+		make -C $(FUN_PATH)
+		$(CC) $^ -o $@ $(CFLAGS) $(addprefix $(FUN_PATH)/, $(FUN_NAME))
 ## $(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(addprefix $(LIBFT_PATH)/, $(LIBFT_NAME))
 
-$(LIBFT_NAME):
-			$(MAKE) all -sC $(LIBFT_PATH)
+$(FUN_NAME):
+			$(MAKE) all -sC $(FUN_PATH)
 
 ##RULES
 
@@ -69,7 +66,7 @@ debug: CFLAGS +=  -g3 -fsanitize=address
 debug: $(NAME)
 
 bonus: $(OBJS_BONUS)
-		make -C $(LIBFT_PATH)
+		make -C $(FUN_PATH)
 		$(CC) $(CFLAGS) $(LDFLAGS) $(LDLIBS) $^ -o $(NAME) 
 
 norminette:
@@ -78,12 +75,12 @@ norminette:
 clean: 
 	rm $(NAME) 
 	rm -rf $(OBJ_PATH)
-	make clean -sC $(LIBFT_PATH)
+	make clean -sC $(FUN_PATH)
 
 fclean: clean
 		rm -rf $(NAME) 
 		rm -rf $(OBJ_PATH)
-		make fclean -sC $(LIBFT_PATH)
+		make fclean -sC $(FUN_PATH)
 
 re: fclean all
 

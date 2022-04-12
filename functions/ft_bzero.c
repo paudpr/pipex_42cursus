@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pdel-pin <pdel-pin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/15 16:22:13 by pdel-pin          #+#    #+#             */
-/*   Updated: 2021/11/16 11:37:27 by pdel-pin         ###   ########.fr       */
+/*   Created: 2021/10/15 17:53:52 by pdel-pin          #+#    #+#             */
+/*   Updated: 2022/04/12 14:54:48 by pdel-pin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "functions.h"
 
-void	ft_putstr_fd(char *s, int fd)
+void	ft_bzero(void *s, size_t n)
 {
-	int	i;
-
-	i = 0;
-	if (s)
-	{
-		while (s[i])
-		{
-			ft_putchar_fd(s[i], fd);
-			i++;
-		}
-	}
+	ft_memset(s, 0, n);
 }

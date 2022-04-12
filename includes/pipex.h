@@ -1,5 +1,5 @@
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
+#ifndef PIPEX_H
+# define  PIPEX_H
 
 # define RED "\033[1;31m"
 # define GREEN "\033[1;32m"
@@ -10,7 +10,7 @@
 # define MAGENTA "\033[1;35m"
 # define RESET "\033[0m"
 
-#include <libft.h>
+#include "../functions/functions.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <fcntl.h>
@@ -27,6 +27,17 @@ typedef struct s_vals
 	int		pipe_fd[2];
 	int		num;
 }	t_vals;
+
+/* Libft */
+void	ft_bzero(void *s, size_t n);
+char	**ft_split(const char *s, char c);
+char	*ft_strdup(const char *s1);
+char	*ft_strjoin(char const *s1, char const *s2);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+size_t	ft_strlen(const char *s);
+void	*ft_memset(void *b, int c, size_t len);
 
 /* Utils */
 void	print_error(void);

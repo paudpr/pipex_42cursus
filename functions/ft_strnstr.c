@@ -1,31 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pdel-pin <pdel-pin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/15 17:02:39 by pdel-pin          #+#    #+#             */
-/*   Updated: 2021/11/16 11:36:24 by pdel-pin         ###   ########.fr       */
+/*   Created: 2021/10/15 17:17:08 by pdel-pin          #+#    #+#             */
+/*   Updated: 2022/04/12 14:54:48 by pdel-pin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "functions.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
 	size_t	i;
+	size_t	n;
 
-	if (!src || !dst)
-		return (0);
-	if (dstsize == 0)
-		return (ft_strlen(src));
 	i = 0;
-	while (i < (dstsize - 1) && src[i] != 0)
+	if (needle[0] == '\0')
+		return ((char *)haystack);
+	while (len && haystack[i])
 	{
-		dst[i] = src[i];
+		n = 0;
+		while (haystack[i + n] != 0
+			&& haystack[i + n] == needle[n] && len - n > 0)
+		{
+			if (needle[n + 1] == '\0')
+				return ((char *)&haystack[i]);
+			n++;
+		}
 		i++;
+		len--;
 	}
-	dst[i] = '\0';
-	return (ft_strlen(src));
+	return (NULL);
 }

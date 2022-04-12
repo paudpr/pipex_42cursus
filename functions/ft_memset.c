@@ -1,18 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pdel-pin <pdel-pin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/15 17:53:52 by pdel-pin          #+#    #+#             */
-/*   Updated: 2021/11/16 11:40:11 by pdel-pin         ###   ########.fr       */
+/*   Created: 2021/10/15 16:10:22 by pdel-pin          #+#    #+#             */
+/*   Updated: 2022/04/12 14:54:48 by pdel-pin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "functions.h"
 
-void	ft_bzero(void *s, size_t n)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	ft_memset(s, 0, n);
+	char	*p;
+	size_t	i;
+
+	p = b;
+	i = 0;
+	while (i < len)
+	{
+		p[i] = c;
+		i++;
+	}
+	return (b);
 }

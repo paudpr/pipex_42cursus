@@ -1,41 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pdel-pin <pdel-pin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/13 13:12:26 by pdel-pin          #+#    #+#             */
-/*   Updated: 2021/11/16 11:37:52 by pdel-pin         ###   ########.fr       */
+/*   Created: 2021/10/15 16:36:22 by pdel-pin          #+#    #+#             */
+/*   Updated: 2022/04/12 14:59:37 by pdel-pin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "functions.h"
 
-void	*ft_memmove(void *dst, const void *src, size_t len)
+char	*ft_strchr(const char *s, int c)
 {
-	char		*d;
-	const char	*s;
+	int	i;
 
-	d = dst;
-	s = src;
-	if (!dst && !src)
-		return (0);
-	if (d > s)
+	if (c == '\0')
 	{
-		d += len;
-		s += len;
-		while (len--)
-			*(unsigned char *)--d = *(unsigned char *)--s;
+		i = ft_strlen(s);
+		return ((char *)&s[i]);
 	}
-	else
+	i = 0;
+	while (s[i] != 0)
 	{
-		while (len--)
-		{
-			*(unsigned char *)d = *(unsigned char *)s;
-			d++;
-			s++;
-		}
+		if (s[i] == (char)c)
+			return ((char *)&s[i]);
+		i++;
 	}
-	return (dst);
+	return ((char *) '\0');
 }

@@ -6,11 +6,11 @@
 /*   By: pdel-pin <pdel-pin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 17:17:08 by pdel-pin          #+#    #+#             */
-/*   Updated: 2021/11/16 11:44:48 by pdel-pin         ###   ########.fr       */
+/*   Updated: 2022/04/12 14:54:48 by pdel-pin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "functions.h"
 
 static size_t	ft_count_strings(const char *s, char c)
 {
