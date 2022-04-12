@@ -65,9 +65,12 @@ $(FUN_NAME):
 debug: CFLAGS +=  -g3 -fsanitize=address
 debug: $(NAME)
 
+debug_bonus: CFLAGS +=  -g3 -fsanitize=address
+debug_bonus: bonus
+
 bonus: $(OBJS_BONUS)
 		make -C $(FUN_PATH)
-		$(CC) $(CFLAGS) $(LDFLAGS) $(LDLIBS) $^ -o $(NAME) 
+		$(CC) $^ -o $(NAME) $(CFLAGS) $(addprefix $(FUN_PATH)/, $(FUN_NAME)) 
 
 norminette:
 	norminette $(SRCS) 
@@ -84,4 +87,4 @@ fclean: clean
 
 re: fclean all
 
-PHONY.: all clean fclean re norminette
+PHONY.: all clean fclean re norminette bonus
