@@ -21,7 +21,7 @@ SRC_BONUS = main_bonus.c \
 			pipex_bonus.c \
 			utils_bonus.c \
 			path_bonus.c \
-			#heredoc.c
+			heredoc_bonus.c \
 
 
 all: $(NAME)

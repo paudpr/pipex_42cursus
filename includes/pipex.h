@@ -40,7 +40,12 @@ char	**get_path(t_vals *vals, int argc, char **argv);
 
 /* Pipex */
 void	pipex(char *infile, char *outfile, t_vals *vals);
+void	child_cmd(char *infile, t_vals *vals);
+void	parent_cmd(char *outfile, t_vals *vals);
 
 /* Bonus */
+char	*heredoc(char **argv);
+void	exec(t_vals *vals);
+pid_t	exec_child(t_vals *vals);
 
 #endif
