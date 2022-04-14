@@ -37,7 +37,7 @@ char	*check_valid(char *path, char *argv)
 	}
 	ft_free_double(path_div);
 	if (cmd_path == NULL)
-		print_error();
+		print_error(0);
 	return (cmd_path);
 }
 
@@ -51,10 +51,10 @@ char	**get_path(t_vals *vals, int argc, char **argv)
 
 	path = find_path(vals->env);
 	if (path == NULL)
-		print_error();
+		print_error(0);
 	cmd_path = malloc(sizeof(char *) * (argc - 3 + 1));
 	if (cmd_path == NULL)
-		print_error();
+		print_error(0);
 	i = 2;
 	j = 0;
 	while (argv[i] && i > 1 && i < argc - 1)

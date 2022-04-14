@@ -1,8 +1,11 @@
 #include <pipex.h>
 
-void	print_error(void)
+void	print_error(char *s)
 {
-	write(1, "ERROR\n", 6);
+	if (s == NULL)
+		write(1, "ERROR\n", 6);
+	else
+		write(1, &s, 1);
 	exit(EXIT_FAILURE);
 }
 
@@ -40,19 +43,19 @@ void	init_vals(t_vals *vals, char **environ, int argc, char **argv)
 	vals->env[i] = NULL;
 	ft_bzero(vals->pipe_fd, 2);
 	vals->cmds_path = get_path(vals, argc, argv);
-	vals->cmds_argv = get_argv(argv, argc);
+	vals->cmds_argv = get_argv(vals, argv, argc);
 }
 
-char	**get_argv(char **argv, int argc)
+char	**get_argv(t_vals *vals, char **argv, int argc)
 {
 	char	**cmd_argv;
 	int		i;
 	int		j;
 
-	cmd_argv = malloc(sizeof(char *) * argc - 3 + 1);
+	cmd_argv = malloc(sizeof(char *) * argc - (3 + vals->num) + 1);
 	if (cmd_argv == NULL)
-		print_error();
-	i = 2;
+		print_error(0);
+	i = 2 + vals->num;
 	j = 0;
 	while (argv[i] && i > 1 && i < argc - 1)
 	{

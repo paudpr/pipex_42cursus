@@ -29,9 +29,9 @@ typedef struct s_vals
 }	t_vals;
 
 /* Utils */
-void	print_error(void);
+void	print_error(char *s);
 void	ft_free_double(char **array);
-char	**get_argv(char **argv, int argc);
+char	**get_argv(t_vals *vals, char **argv, int argc);
 void	init_vals(t_vals *vals, char **environ, int argc, char **argv);
 
 /* Path */
@@ -44,8 +44,10 @@ void	child_cmd(char *infile, t_vals *vals);
 void	parent_cmd(char *outfile, t_vals *vals);
 
 /* Bonus */
-char	*heredoc(char **argv);
+void	heredoc(char **argv);
 void	exec(t_vals *vals);
 pid_t	exec_child(t_vals *vals);
+void	check_herefile(char *infile);
+
 
 #endif

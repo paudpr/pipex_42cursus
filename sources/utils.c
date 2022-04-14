@@ -40,15 +40,17 @@ void	init_vals(t_vals *vals, char **environ, int argc, char **argv)
 	vals->env[i] = NULL;
 	ft_bzero(vals->pipe_fd, 2);
 	vals->cmds_path = get_path(vals, argc, argv);
-	vals->cmds_argv = get_argv(argv, argc);
+	vals->cmds_argv = get_argv(vals, argv, argc);
 }
 
-char	**get_argv(char **argv, int argc)
+char	**get_argv(t_vals *vals, char **argv, int argc)
 {
 	char	**cmd_argv;
 	int		i;
 	int		j;
-
+	int		num;
+	
+	printf("valor vals->nnum ----->%d", vals->num);
 	cmd_argv = malloc(sizeof(char *) * argc - 3 + 1);
 	if (cmd_argv == NULL)
 		print_error();
