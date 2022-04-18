@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_bonus.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pdel-pin <pdel-pin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/18 13:10:27 by pdel-pin          #+#    #+#             */
+/*   Updated: 2022/04/18 13:10:29 by pdel-pin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <pipex.h>
 
 void	exec(t_vals *vals)
@@ -8,6 +20,12 @@ void	exec(t_vals *vals)
 	cmd_split = ft_split(vals->cmds_argv[vals->num], ' ');
 	cmd = ft_strjoin(vals->cmds_path[vals->num], cmd_split[0]);
 	if (execve(cmd, cmd_split, vals->env) < 0)
+		print_error(0);
+}
+
+void	check_access(char *path)
+{
+	if (access(path, R_OK | W_OK) != 0)
 		print_error(0);
 }
 
@@ -48,9 +66,7 @@ void	pipex(char *infile, char *outfile, t_vals *vals)
 	fd = open(infile, O_RDONLY);
 	if (fd < 0)
 		print_error(0);
-	printf("fd ->%d\n", fd);
 	unlink("/tmp/file");
-	printf("fd ->%d\n", fd);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	while (vals->cmds_argv[vals->num] && vals->num < i - 1)
@@ -61,6 +77,7 @@ void	pipex(char *infile, char *outfile, t_vals *vals)
 	check_herefile(infile);
 	wait(&pid);
 	fd = open(outfile, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	check_access(outfile);
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
 	exec(vals);

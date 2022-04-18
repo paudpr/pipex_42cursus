@@ -1,8 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pdel-pin <pdel-pin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/18 13:10:36 by pdel-pin          #+#    #+#             */
+/*   Updated: 2022/04/18 13:10:38 by pdel-pin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <pipex.h>
 
-void	print_error(void)
+void	print_error(char *s)
 {
-	write(1, "ERROR\n", 6);
+	if (s == NULL)
+		write(1, "ERROR\n", 6);
+	else
+		write(1, &s, 1);
 	exit(EXIT_FAILURE);
 }
 
@@ -48,12 +63,11 @@ char	**get_argv(t_vals *vals, char **argv, int argc)
 	char	**cmd_argv;
 	int		i;
 	int		j;
-	int		num;
-	
-	printf("valor vals->nnum ----->%d", vals->num);
+
+	(void)vals;
 	cmd_argv = malloc(sizeof(char *) * argc - 3 + 1);
 	if (cmd_argv == NULL)
-		print_error();
+		print_error(0);
 	i = 2;
 	j = 0;
 	while (argv[i] && i > 1 && i < argc - 1)

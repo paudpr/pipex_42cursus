@@ -26,14 +26,9 @@ SRC_BONUS = main_bonus.c \
 
 all: $(NAME)
 
-##-L is used to include paths where the linker will look for libraries
-##-l is used to link a library, which must be passed without the lib prefix and the extension
-## -p para crear directorios uno dentro del otro
-
 OBJS_NAME = $(SRC:%.c=%.o)
 OBJS_NAME_BONUS = $(SRC_BONUS:%.c=%.o)
 
-##addprefix "coge" el segundo argumento y el path del primer argumento. funciona como un while añadiendo paths a cada source
 SRCS_NAME = $(addprefix $(SRC_PATH)/, $(SRC))
 SRCS_NAME_BONUS = $(addprefix $(SRC_PATH)/, $(SRC_BONUS))
 
@@ -47,18 +42,13 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c | $(OBJ_PATH)
 			$(CC) $(CFLAGS) -c $< -o $@
 
 			
-##s es para silenciar y C para que vaya al directorio
-##	make -sC $(LIBFT_PATH)
-
-##el | está para evitar que haga relink
-##otra solución sería copiar la orden de $(LIBFT_NAME) para ejecutar antes de la compilación (dentro de $(NAME))
 $(NAME): $(OBJS)
 		make -C $(FUN_PATH)
 		$(CC) $^ -o $@ $(CFLAGS) $(addprefix $(FUN_PATH)/, $(FUN_NAME))
-## $(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(addprefix $(LIBFT_PATH)/, $(LIBFT_NAME))
 
 $(FUN_NAME):
 			$(MAKE) all -sC $(FUN_PATH)
+
 
 ##RULES
 
@@ -70,14 +60,16 @@ debug_bonus: bonus
 
 bonus: $(OBJS_BONUS)
 		make -C $(FUN_PATH)
-		$(CC) $^ -o $(NAME) $(CFLAGS) $(addprefix $(FUN_PATH)/, $(FUN_NAME)) 
+	@if [ ! -f /tmp/relink ]; then \
+    	$(CC) $^ -o pipex $(CFLAGS) $(addprefix $(FUN_PATH)/, $(FUN_NAME)) ;\
+		echo /tmp/relink > /tmp/relink ; \
+	fi
 
 norminette:
 	norminette $(SRCS) 
 
-clean: 
-	rm $(NAME) 
-	rm -rf $(OBJ_PATH)
+clean:
+	rm -rf $(OBJ_PATH) /tmp/relink
 	make clean -sC $(FUN_PATH)
 
 fclean: clean

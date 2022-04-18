@@ -6,7 +6,7 @@
 /*   By: pdel-pin <pdel-pin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 17:17:08 by pdel-pin          #+#    #+#             */
-/*   Updated: 2022/04/12 14:54:48 by pdel-pin         ###   ########.fr       */
+/*   Updated: 2022/04/18 13:12:25 by pdel-pin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static size_t	ft_count_strings(const char *s, char c)
 
 	new_str = 0;
 	str_n = 0;
-	 i = 0;
+	i = 0;
 	while (s[i])
 	{
 		if (s[i] != c && new_str == 0)
